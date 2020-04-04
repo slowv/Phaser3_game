@@ -1,0 +1,251 @@
+{
+	"textures": [
+		{
+			"image": "run-no-sword.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1001,
+				"h": 1188
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "SNinja_nosword_run07",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 379,
+						"y": 46,
+						"w": 250,
+						"h": 405
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 250,
+						"h": 405
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run06",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 378,
+						"y": 48,
+						"w": 251,
+						"h": 403
+					},
+					"frame": {
+						"x": 0,
+						"y": 405,
+						"w": 251,
+						"h": 403
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run04",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 378,
+						"y": 58,
+						"w": 251,
+						"h": 392
+					},
+					"frame": {
+						"x": 250,
+						"y": 0,
+						"w": 251,
+						"h": 392
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run11",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 381,
+						"y": 47,
+						"w": 250,
+						"h": 404
+					},
+					"frame": {
+						"x": 251,
+						"y": 392,
+						"w": 250,
+						"h": 404
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run01",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 364,
+						"y": 61,
+						"w": 250,
+						"h": 391
+					},
+					"frame": {
+						"x": 251,
+						"y": 796,
+						"w": 250,
+						"h": 391
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run05",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 379,
+						"y": 50,
+						"w": 250,
+						"h": 402
+					},
+					"frame": {
+						"x": 501,
+						"y": 0,
+						"w": 250,
+						"h": 402
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run02",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 370,
+						"y": 55,
+						"w": 250,
+						"h": 397
+					},
+					"frame": {
+						"x": 501,
+						"y": 402,
+						"w": 250,
+						"h": 397
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run03",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 380,
+						"y": 56,
+						"w": 249,
+						"h": 389
+					},
+					"frame": {
+						"x": 501,
+						"y": 799,
+						"w": 249,
+						"h": 389
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run08",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 379,
+						"y": 55,
+						"w": 250,
+						"h": 397
+					},
+					"frame": {
+						"x": 751,
+						"y": 0,
+						"w": 250,
+						"h": 397
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run10",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 380,
+						"y": 56,
+						"w": 250,
+						"h": 396
+					},
+					"frame": {
+						"x": 751,
+						"y": 397,
+						"w": 250,
+						"h": 396
+					}
+				},
+				{
+					"filename": "SNinja_nosword_run09",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1024,
+						"h": 512
+					},
+					"spriteSourceSize": {
+						"x": 379,
+						"y": 61,
+						"w": 250,
+						"h": 391
+					},
+					"frame": {
+						"x": 751,
+						"y": 793,
+						"w": 250,
+						"h": 391
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:409f2d797a1322364de6944e09ddf851:4bc4793235794ffc9cd4ffe5794ba3d4:5c408b7ef81715a6215a899bbcbd96b3$"
+	}
+}
