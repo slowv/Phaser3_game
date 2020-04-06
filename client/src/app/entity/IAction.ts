@@ -9,11 +9,12 @@ interface IAction {
 
     base(): void;
 
-    runLeft(x: number, y: number): void;
+    runLeft(): void;
 
     runRight(): void;
 
     runDown(): void;
 
     runUp(): void;
+    run(x: number, y: number);
 }

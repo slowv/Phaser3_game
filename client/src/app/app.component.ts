@@ -12,10 +12,10 @@ import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'client';
+  title = 'GAME';
   game: Phaser.Game;
-  WIDTH = 1024;
-  HEIGHT = 576;
+  WIDTH = window.innerWidth;
+  HEIGHT = window.innerHeight;
   SCENE = [Load, Menu, PlayGame];
   public ngOnInit(): void {
   }
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   // tslint:disable-next-line:use-lifecycle-interface
   public ngAfterViewInit(): void {
     this.game = new Phaser.Game({
-      type: Phaser.WEBGL,
+      type: Phaser.AUTO,
       width: this.WIDTH,
       height: this.HEIGHT,
       physics: {
@@ -47,13 +47,6 @@ export class AppComponent implements OnInit {
       },
       version: '1.0',
       disableContextMenu: true,
-      plugins: {
-        global: [{
-          key: 'rexMoveTo',
-          plugin: MoveToPlugin,
-          start: true
-        }]
-      }
     });
   }
 }

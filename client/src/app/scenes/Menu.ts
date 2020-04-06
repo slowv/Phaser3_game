@@ -31,7 +31,7 @@ export class Menu extends Phaser.Scene {
         });
         btnPlay.on('pointerup', () => {
             this.sound.pauseAll();
-            this.scene.start(CST.SCENES.LEVEL_1);
+            this.scene.start(CST.SCENES.PLAY);
         });
 
         this.sound.pauseOnBlur = false;
