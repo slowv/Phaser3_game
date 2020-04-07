@@ -6,7 +6,7 @@ export class ImageHud extends Phaser.GameObjects.Image {
       this.setAlpha(.8);
     }
     if (isScale) {
-      this.setScale(.7);
+      this.setScale(.5);
     }
     this.setDepth(2);
     scene.add.existing(this);

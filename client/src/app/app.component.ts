@@ -14,8 +14,8 @@ import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
 export class AppComponent implements OnInit {
   title = 'GAME';
   game: Phaser.Game;
-  WIDTH = window.innerWidth;
-  HEIGHT = window.innerHeight;
+  WIDTH = 1024;
+  HEIGHT = 576;
   SCENE = [Load, Menu, PlayGame];
   public ngOnInit(): void {
   }
@@ -36,10 +36,10 @@ export class AppComponent implements OnInit {
         pixelArt: true
       },
       scene: this.SCENE,
-      scale: {
-        mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.Center.CENTER_BOTH
-      },
+      // scale: {
+      //   mode: Phaser.Scale.FIT,
+      //   autoCenter: Phaser.Scale.Center.CENTER_HORIZONTALLY
+      // },
       fps: {
         min: 30,
         deltaHistory: 60,

@@ -24,6 +24,7 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   attackDistance: number;
   level: number;
   avatar: ImageHud;
+  avatarMap: ImageHud;
   animKey = CST.ANIM.CHARACTER;
 
   champion: any;
@@ -64,6 +65,7 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
     this.attackDistance = properties.ATTACK_DISTANCE;
     this.level = 1;
     this.avatar = new ImageHud(scene, 0, 0, this.champion.AVATAR, false, true);
+    this.avatarMap = new ImageHud(scene, 0, 0, this.champion.AVATAR, false, true);
     this.scene = scene;
 
     const skillInformation = this.champion.SKILL;
