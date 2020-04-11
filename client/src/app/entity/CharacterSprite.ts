@@ -3,8 +3,8 @@ import Image = Phaser.GameObjects.Image;
 
 import {Skill} from './Skill';
 import MoveTo from 'phaser3-rex-plugins/plugins/moveto';
-import Vector2 = Phaser.Math.Vector2;
 import {ImageHud} from './ImageHud';
+import {CharacterQuarter} from './character-quarter.enum';
 
 export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAction {
   currentHp: number;
@@ -26,7 +26,6 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   avatar: ImageHud;
   avatarMap: ImageHud;
   animKey = CST.ANIM.CHARACTER;
-
   champion: any;
   // Skill
   skillQ: Skill;
@@ -34,16 +33,17 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   skillE: Skill;
   skillR: Skill;
   scene: Phaser.Scene;
-  // Move
-  moveTo: MoveTo;
-
+  keys!: { [index: string]: Phaser.Input.Keyboard.Key };
+  cursors !: Phaser.Types.Input.Keyboard.CursorKeys;
+  quarter: CharacterQuarter;
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number, key?: string) {
     super(scene, x, y, texture, frame);
-    this.setScale(0.45);
     this.setDepth(2);
     scene.physics.world.enableBody(this);
     this.setCollideWorldBounds(true);
     this.setImmovable(true);
+    this.setOrigin(0, 0);
+    this.quarter = CharacterQuarter.DOWN;
     this.body.setSize(this.width - 50, this.height - 20, true).setOffset(25, 25);
     this.champion = CST.ATLAS.CHARACTER[key];
     // SET PROPERTY
@@ -64,8 +64,8 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
     this.reloadSkill = properties.RELOAD_SKILL;
     this.attackDistance = properties.ATTACK_DISTANCE;
     this.level = 1;
-    this.avatar = new ImageHud(scene, 0, 0, this.champion.AVATAR, false, true);
-    this.avatarMap = new ImageHud(scene, 0, 0, this.champion.AVATAR, false, true);
+    this.avatar = new ImageHud(scene, 0, 0, this.champion.AVATAR, false);
+    this.avatarMap = new ImageHud(scene, 0, 0, this.champion.AVATAR, false);
     this.scene = scene;
 
     const skillInformation = this.champion.SKILL;
@@ -118,11 +118,11 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
       skillInformation.R.DISTANCE,
       new Image(scene, 100, 100, skillInformation.R.IMAGE.TEXTURE, skillInformation.R.IMAGE.FRAME),
     );
-    this.moveTo = new MoveTo(this, {
-      speed: this.speed
-    });
-
     this.scene.add.existing(this);
+    // @ts-ignore
+    this.keys = this.scene.input.keyboard.addKeys('Q, W, E, R, F1');
+    this.cursors = this.scene.input.keyboard.createCursorKeys();
+    this.play(this.animKey.HURT, true);
   }
 
   use_q(x: number, y: number): void {
@@ -172,40 +172,62 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   }
 
   death() {
-    this.anims.play(this.animKey.HURT);
+    this.play(this.animKey.HURT, true);
     this.destroy();
   }
 
   runDown(): void {
-    // console.log('rung down');
-    this.anims.play(this.animKey.RUN_DOWN);
+    this.quarter = CharacterQuarter.DOWN;
+    this.setVelocityY(this.speed);
   }
 
   runLeft(): void {
-    this.anims.play(this.animKey.RUN_LEFT);
-    // alert('run left');
+    this.quarter = CharacterQuarter.LEFT;
+
+    this.setVelocityX(-this.speed);
   }
 
   runRight(): void {
-    this.anims.play(this.animKey.RUN_RIGHT);
-    // alert('run right');
+    this.quarter = CharacterQuarter.RIGHT;
+    this.setVelocityX(this.speed);
   }
 
   runUp(): void {
-    // console.log('run up');
-    this.anims.play(this.animKey.RUN_UP);
-  }
-
-  run(x: number, y: number) {
-    if (x > this.x) {
-      this.runRight();
-    } else if (x < this.x) {
-      this.runLeft();
-    }
-    this.moveTo.moveTo(x, y);
+    this.quarter = CharacterQuarter.UP;
+    this.setVelocityY(-this.speed);
   }
 
   getAvatar(): ImageHud {
     return this.avatar;
+  }
+  protected preUpdate(time: number, delta: number): void {
+    if (this.cursors.up.isDown) {
+      this.runUp();
+    }
+    if (this.cursors.down.isDown) {
+      this.runDown();
+    }
+    if (this.cursors.left.isDown) {
+      this.runLeft();
+    }
+    if (this.cursors.right.isDown) {
+      this.runRight();
+    }
+    if (this.cursors.up.isUp && this.cursors.down.isUp) {
+      this.setVelocityY(0);
+    }
+    if (this.cursors.left.isUp && this.cursors.right.isUp) {
+      this.setVelocityX(0);
+    }
+
+    if (this.body.velocity.x > 0) { // moving right
+      this.play(this.animKey.RUN_RIGHT, true);
+    } else if (this.body.velocity.x < 0) { // moving left
+      this.play(this.animKey.RUN_LEFT, true);
+    } else if (this.body.velocity.y < 0) { // moving up
+      this.play(this.animKey.RUN_UP, true);
+    } else if (this.body.velocity.y > 0) { // moving down
+      this.play(this.animKey.RUN_DOWN, true);
+    }
   }
 }

@@ -2,7 +2,8 @@ export const CST = {
   SCENES: {
     LOAD: 'LOAD',
     MENU: 'MENU',
-    PLAY: 'PLAY'
+    PLAY: 'PLAY',
+    LOGIN: 'LOGIN'
   },
   IMAGE: {
     BTN_PLAY: 'play_button.png',
@@ -30,7 +31,7 @@ export const CST = {
           ENERGY: 350, /* Năng lượng */
           ARMOR: 25, /* Giáp */
           MAGICAL_RESISTENCE: 30, /* Kháng phép */
-          SPEED: 335, /* Tốc độ chạy */
+          SPEED: 300, /* Tốc độ chạy */
           ATTACK_SPEED: 0.65, /* Tốc độ đánh */
           HEALTH_REGEN: 1.1, /* Tốc độ hồi máu */
           ENERGY_REGEN: 1, /* Tốc độ hồi năng lượng */
@@ -151,17 +152,17 @@ export const CST = {
     }
   },
   HUD: {
-    BANG_CHI_SO: 'perks/PerksAtlas_03.gif', // stat
-    TAN_CONG: 'perks/PerksAtlas_10.gif', // attack
-    PHEP_THUAT: 'perks/PerksAtlas_12.gif', // magic
-    GIAP: 'perks/PerksAtlas_16.gif', // armor
-    KHANG_PHEP: 'perks/PerksAtlas_18.gif', //
-    TOC_DO_DANH: 'perks/PerksAtlas_20.gif', //
-    HOI_CHIEU: 'perks/PerksAtlas_23.gif', //
-    TAM_DANH: 'perks/PerksAtlas_31.png', //
-    CHI_MANG: 'perks/PerksAtlas_28.gif', //
-    BANG_ANH_DAI_DIEN_VA_KY_NANG: 'clarity/Clarity_HUDAtlas_11.png',
-    BANG_TRANG_BI: 'clarity/Clarity_HUDAtlas_07.png',
+    BANG_CHI_SO: 'perks/PerksAtlas_31.png', // stat
+    TAN_CONG: 'perks/PerksAtlas_39.png', // attack
+    PHEP_THUAT: 'perks/PerksAtlas_41.png', // magic
+    GIAP: 'perks/PerksAtlas_49.png', // armor
+    KHANG_PHEP: 'perks/PerksAtlas_50.png', //
+    TOC_DO_DANH: 'perks/PerksAtlas_51.png', //
+    HOI_CHIEU: 'perks/PerksAtlas_55.png', //
+    TAM_DANH: 'perks/PerksAtlas_60.png', //
+    CHI_MANG: 'perks/PerksAtlas_57.png', //
+    BANG_ANH_DAI_DIEN_VA_KY_NANG: 'clarity/Clarity_HUDAtlas_63.png',
+    BANG_TRANG_BI: 'clarity/Clarity_HUDAtlas_82.png',
     MAP: 'clarity/Clarity_HUDAtlas_03.png'
   }
 };

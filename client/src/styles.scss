@@ -1,1 +1,91 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+html, body {
+  display: flex;
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+
+  canvas {
+    margin: auto;
+  }
+
+  #formRegister {
+    position: relative;
+    width: 240px;
+    height: 576px;
+    background: rgba(0, 0, 0, 0.42);
+    padding: 10px;
+
+    input.slv-input {
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      display: block;
+      padding: 5px;
+      transition: .3s;
+      background: rgba(0, 0, 0, 0.8);
+      color: #f9f9f9;
+      border: none;
+      outline: none;
+      font-size: 14px;
+
+      &::placeholder {
+        font-size: 13px;
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        border: 1px solid rgba(255, 207, 120, 0.71);
+      }
+
+      border: 1px solid rgba(255, 207, 120, 0.71);
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #f9f9f9
+    }
+
+    img {
+      display: block;
+      margin: auto;
+    }
+
+    #btn-login {
+      text-decoration: none;
+      position: relative;
+      padding: 7px;
+      color: #fff;
+      letter-spacing: 2px;
+      border-radius: 40px;
+      text-transform: uppercase;
+      transition: .5s;
+      display: block;
+      width: 80%;
+      font-size: 14px;
+      margin: auto;
+      text-align: center;
+      margin-top: 30px;
+      background: transparent;
+      overflow: hidden;
+      border: 2px solid #fff;
+      &:hover {
+        background: rgba(0, 0, 0, 0.73);
+        border-style: dashed;
+      }
+    }
+  }
+}
+
+

@@ -1,10 +1,15 @@
 import {CST} from '../util/CST';
+import {Player} from '../entity/Player';
 
 export class Load extends Phaser.Scene {
   constructor() {
     super({
       key: CST.SCENES.LOAD
     });
+  }
+  player: Player;
+  init(player: Player) {
+    this.player = player;
   }
 
   loadImages(): void {
@@ -35,7 +40,7 @@ export class Load extends Phaser.Scene {
   loadAtlas() {
     this.load.setPath('assets/images');
     this.load.atlas(
-      'CUNG_THU',
+      'cung_thu',
       CST.ATLAS.CHARACTER.CUNG_THU.PNG,
       CST.ATLAS.CHARACTER.CUNG_THU.JSON
     );
@@ -77,7 +82,6 @@ export class Load extends Phaser.Scene {
     });
     this.load.on('progress', (percent: number) => {
       loadingBar.fillRect(20, this.game.renderer.height / 2, (this.game.renderer.width - 40) * percent, 20);
-      console.log(percent);
     });
 
     this.load.on('complete', () => {
@@ -91,6 +95,6 @@ export class Load extends Phaser.Scene {
   }
 
   create(): void {
-    this.scene.start(CST.SCENES.PLAY);
+    this.scene.start(CST.SCENES.PLAY, this.player);
   }
 }

@@ -4,7 +4,7 @@ import Phaser from 'phaser';
 import {Load} from './scenes/Load';
 import {Menu} from './scenes/Menu';
 import {PlayGame} from './scenes/PlayGame';
-import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
+import { Login } from './scenes/Login';
 
 @Component({
   selector: 'app-root',
@@ -14,26 +14,37 @@ import MoveToPlugin from 'phaser3-rex-plugins/plugins/moveto-plugin.js';
 export class AppComponent implements OnInit {
   title = 'GAME';
   game: Phaser.Game;
-  WIDTH = 1024;
-  HEIGHT = 576;
-  SCENE = [Load, Menu, PlayGame];
+  public WIDTH = 1024;
+  public HEIGHT = 576;
+  SCENE = [Login, Load, Menu, PlayGame];
+
   public ngOnInit(): void {
   }
 
   // tslint:disable-next-line:use-lifecycle-interface
   public ngAfterViewInit(): void {
     this.game = new Phaser.Game({
-      type: Phaser.AUTO,
+      type: Phaser.WEBGL,
+      parent: 'game-root',
+      dom: {
+        createContainer: true
+      },
+      backgroundColor: 0x000000,
       width: this.WIDTH,
       height: this.HEIGHT,
       physics: {
         default: 'arcade',
         arcade: {
-          debug: true
+          debug: true,
+          fps: 120
         }
       },
       render: {
         pixelArt: true
+      },
+      plugins: {
+        scene: [
+        ]
       },
       scene: this.SCENE,
       // scale: {

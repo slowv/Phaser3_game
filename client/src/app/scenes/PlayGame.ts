@@ -2,13 +2,16 @@ import {CST} from '../util/CST';
 import {CharacterSprite} from '../entity/CharacterSprite';
 import {ImageHud} from '../entity/ImageHud';
 import {TextHUD} from '../entity/TextHUD';
+import PhaserNavMeshPlugin from 'phaser-navmesh/dist/phaser-navMesh.js';
+import {Player} from '../entity/Player';
 
 export class PlayGame extends Phaser.Scene {
   champion!: CharacterSprite;
-  keys!: { [index: string]: Phaser.Input.Keyboard.Key };
+  // Map
+  tilemap!: Phaser.Tilemaps.Tilemap;
+  topLayer !: Phaser.Tilemaps.StaticTilemapLayer;
   pointer!: Phaser.Input.Pointer;
   textFPS!: Phaser.GameObjects.Text;
-  cursorKeys !: Phaser.Types.Input.Keyboard.CursorKeys;
   self !: PlayGame;
   cameraMain !: Phaser.Cameras.Scene2D.Camera;
   miniCam !: Phaser.Cameras.Scene2D.Camera;
@@ -16,8 +19,8 @@ export class PlayGame extends Phaser.Scene {
   cameraBounds = {
     x: 0,
     y: 0,
-    width: 1680,
-    height: 1680
+    width: 3360,
+    height: 3360
   };
   // HUD variable
   HUDStat: ImageHud;
@@ -46,13 +49,14 @@ export class PlayGame extends Phaser.Scene {
   avatar: ImageHud;
   circleLevel: Phaser.GameObjects.Arc;
   iconAvatarMiniMap: ImageHud;
+
   constructor() {
     super({
       key: CST.SCENES.PLAY
     });
   }
 
-  init() {
+  init(player: Player) {
     console.log('level 1');
   }
 
@@ -68,14 +72,13 @@ export class PlayGame extends Phaser.Scene {
     // POINTER
     this.self.pointer = this.input.activePointer;
     // TEXT
-    this.textFPS = new TextHUD(this, window.innerWidth - 120, 10, '0 fps', {
-      fontStyle: 'bold',
-      fontSize: '11px',
-      fontFamily: 'Arial',
+    this.textFPS = new TextHUD(this, 1500, -355, '0 fps', {
+      fontSize: '30px',
+      fontFamily: 'Monospace',
       color: '#ffffff',
       align: 'center',  // 'left'|'center'|'right'|'justify'
       backgroundColor: 'transparent'
-    });
+    }).setDepth(3);
     // CAM
     this.makeCAM();
     this.makeHUD();
@@ -111,15 +114,13 @@ export class PlayGame extends Phaser.Scene {
     // Loại bỏ icon champion ra khỏi camera chính
     this.cameraMain.ignore(this.iconAvatarMiniMap);
     // Phóng to icon champion map mini
-    this.iconAvatarMiniMap.setScale(1.5);
+    this.iconAvatarMiniMap.setScale(3);
   }
 
   // EVENT FUNCTION
   update(time: number, delta: number): void {
-    this.self.textFPS.text = `FPS: ${Math.ceil(this.game.loop.actualFps)}      ${Math.ceil(delta)} ms`;
+    this.self.textFPS.text = `FPS: ${Math.ceil(this.game.loop.actualFps)}    ${Math.ceil(delta)} ms`;
     this.self.txtLevel.text = this.self.champion.level.toString();
-    // Update phím để di chuyển cam
-    this.self.controls.update(delta);
     // update cho vị trí icon champion map di chuyển theo champion
     this.iconAvatarMiniMap.x = this.self.champion.x;
     this.iconAvatarMiniMap.y = this.self.champion.y;
@@ -128,103 +129,102 @@ export class PlayGame extends Phaser.Scene {
   makeHUD(): void {
     // ADD HUD
     // Stat
-    this.HUDStat = new ImageHud(this, 0, 0, CST.HUD.BANG_CHI_SO, true, false);
-    this.HUDStat.setPosition(this.HUDStat.width * 1.2 - 10, this.game.canvas.height - 81 / 2 - 2);
-    this.HUDAttack = new ImageHud(this, this.HUDStat.x - this.HUDStat.width / 2.8, this.HUDStat.y - 29, CST.HUD.TAN_CONG, true, false);
-    this.HUDMagic = new ImageHud(this, this.HUDStat.x + 5, this.HUDStat.y - 29, CST.HUD.PHEP_THUAT, false, false);
-    this.HUDArmor = new ImageHud(this, this.HUDAttack.x, this.HUDAttack.y + 20, CST.HUD.GIAP, false, false);
-    this.HUDMagicResistance = new ImageHud(this, this.HUDMagic.x, this.HUDMagic.y + 20, CST.HUD.KHANG_PHEP, false, false);
-    this.HUDAttackSpeed = new ImageHud(this, this.HUDAttack.x, this.HUDArmor.y + 20, CST.HUD.TOC_DO_DANH, false, false);
-    this.HUDReloadSkill = new ImageHud(this, this.HUDMagic.x, this.HUDMagicResistance.y + 20, CST.HUD.HOI_CHIEU, false, false);
-    this.HUDAttackDistance = new ImageHud(this, this.HUDAttack.x, this.HUDAttackSpeed.y + 20, CST.HUD.TAM_DANH, false, false);
-    this.HUDCritical = new ImageHud(this, this.HUDMagic.x, this.HUDReloadSkill.y + 20, CST.HUD.CHI_MANG, false, false);
+    // @ts-ignore
+    this.HUDStat = new ImageHud(this, -670, 740, CST.HUD.BANG_CHI_SO, true).setScale(1.6);
+    this.HUDAttack = new ImageHud(this, this.HUDStat.x + 30 , this.HUDStat.y + 20, CST.HUD.TAN_CONG, true);
+    this.HUDMagic = new ImageHud(this, this.HUDStat.x + 170, this.HUDStat.y + 20, CST.HUD.PHEP_THUAT, false);
+    this.HUDArmor = new ImageHud(this, this.HUDAttack.x, this.HUDAttack.y + 55, CST.HUD.GIAP, false);
+    this.HUDMagicResistance = new ImageHud(this, this.HUDMagic.x, this.HUDMagic.y + 55, CST.HUD.KHANG_PHEP, false);
+    this.HUDAttackSpeed = new ImageHud(this, this.HUDAttack.x, this.HUDArmor.y + 55, CST.HUD.TOC_DO_DANH, false);
+    this.HUDReloadSkill = new ImageHud(this, this.HUDMagic.x, this.HUDMagicResistance.y + 55, CST.HUD.HOI_CHIEU, false);
+    this.HUDAttackDistance = new ImageHud(this, this.HUDAttack.x, this.HUDAttackSpeed.y + 55, CST.HUD.TAM_DANH, false);
+    this.HUDCritical = new ImageHud(this, this.HUDMagic.x, this.HUDReloadSkill.y + 55, CST.HUD.CHI_MANG, false);
 
-    this.txtHUDAttack = new TextHUD(this, this.HUDAttack.x + 15, this.HUDAttack.y - 6, this.self.champion.attack.toString(), {
+    this.txtHUDAttack = new TextHUD(this, this.HUDAttack.x + 50, this.HUDAttack.y + 7, this.self.champion.attack.toString(), {
       fontStyle: 'bold',
-      fontSize: '10px',
-      fontFamily: 'Arial',
+      fontSize: '25px',
+      fontFamily: 'Monospace',
       color: '#fff4af',
       align: 'center',  // 'left'|'center'|'right'|'justify'
       backgroundColor: 'transparent'
     });
-    this.txtHUDMagic = new TextHUD(this, this.HUDMagic.x + 15, this.HUDMagic.y - 6, this.self.champion.magic.toString(), {
+    this.txtHUDMagic = new TextHUD(this, this.HUDMagic.x + 50, this.HUDMagic.y + 7, this.self.champion.magic.toString(), {
       fontStyle: 'bold',
-      fontSize: '10px',
-      fontFamily: 'Arial',
+      fontSize: '25px',
+      fontFamily: 'Monospace',
       color: '#fff4af',
       align: 'center',  // 'left'|'center'|'right'|'justify'
       backgroundColor: 'transparent'
     });
-    this.txtHUDArmor = new TextHUD(this, this.HUDAttack.x + 15, this.HUDArmor.y - 6, this.self.champion.armor.toString(), {
+    this.txtHUDArmor = new TextHUD(this, this.HUDAttack.x + 50, this.HUDArmor.y + 7, this.self.champion.armor.toString(), {
       fontStyle: 'bold',
-      fontSize: '10px',
-      fontFamily: 'Arial',
+      fontSize: '25px',
+      fontFamily: 'Monospace',
       color: '#fff4af',
       align: 'center',  // 'left'|'center'|'right'|'justify'
       backgroundColor: 'transparent'
     });
-    this.txtHUDMagicResistance = new TextHUD(this, this.HUDMagicResistance.x + 15, this.HUDMagicResistance.y - 6,
+    this.txtHUDMagicResistance = new TextHUD(this, this.HUDMagicResistance.x + 50, this.HUDMagicResistance.y + 7,
       this.self.champion.magicResistance.toString(), {
         fontStyle: 'bold',
-        fontSize: '10px',
-        fontFamily: 'Arial',
+        fontSize: '25px',
+        fontFamily: 'Monospace',
         color: '#fff4af',
         align: 'center',  // 'left'|'center'|'right'|'justify'
         backgroundColor: 'transparent'
       });
-    this.txtHUDAttackSpeed = new TextHUD(this, this.HUDAttackSpeed.x + 15, this.HUDAttackSpeed.y - 6,
+    this.txtHUDAttackSpeed = new TextHUD(this, this.HUDAttackSpeed.x + 50, this.HUDAttackSpeed.y + 7,
       this.self.champion.attackSpeed.toString(), {
         fontStyle: 'bold',
-        fontSize: '10px',
-        fontFamily: 'Arial',
+        fontSize: '25px',
+        fontFamily: 'Monospace',
         color: '#fff4af',
         align: 'center',  // 'left'|'center'|'right'|'justify'
         backgroundColor: 'transparent'
       });
-    this.txtHUDReloadSkill = new TextHUD(this, this.HUDReloadSkill.x + 15, this.HUDReloadSkill.y - 6,
+    this.txtHUDReloadSkill = new TextHUD(this, this.HUDReloadSkill.x + 50, this.HUDReloadSkill.y + 7,
       this.self.champion.reloadSkill.toString(), {
         fontStyle: 'bold',
-        fontSize: '10px',
-        fontFamily: 'Arial',
+        fontSize: '25px',
+        fontFamily: 'Monospace',
         color: '#fff4af',
         align: 'center',  // 'left'|'center'|'right'|'justify'
         backgroundColor: 'transparent'
       });
-    this.txtHUDAttackDistance = new TextHUD(this, this.HUDAttackDistance.x + 15, this.HUDAttackDistance.y - 6,
+    this.txtHUDAttackDistance = new TextHUD(this, this.HUDAttackDistance.x + 50, this.HUDAttackDistance.y + 7,
       this.self.champion.attackDistance.toString(), {
         fontStyle: 'bold',
-        fontSize: '10px',
-        fontFamily: 'Arial',
+        fontSize: '25px',
+        fontFamily: 'Monospace',
         color: '#fff4af',
         align: 'center',  // 'left'|'center'|'right'|'justify'
         backgroundColor: 'transparent'
       });
-    this.txtHUDCritical = new TextHUD(this, this.HUDCritical.x + 15, this.HUDCritical.y - 6,
+    this.txtHUDCritical = new TextHUD(this, this.HUDCritical.x + 50, this.HUDCritical.y + 7,
       this.self.champion.critical.toString(), {
         fontStyle: 'bold',
-        fontSize: '10px',
-        fontFamily: 'Arial',
+        fontSize: '25px',
+        fontFamily: 'Monospace',
         color: '#fff4af',
         align: 'center',  // 'left'|'center'|'right'|'justify'
         backgroundColor: 'transparent'
       });
     // Avatar and skill
     this.HUDAvatarAndSkill = new ImageHud(this, 0, 0,
-      CST.HUD.BANG_ANH_DAI_DIEN_VA_KY_NANG, true, true).setDepth(4)
-      .setPosition(window.innerWidth / 2 - 310, this.HUDStat.y);
-    this.avatar = this.self.champion.getAvatar().setPosition(this.HUDAvatarAndSkill.x / 1.7 + 7, this.HUDAvatarAndSkill.y).setDepth(3);
-    this.HUDItem = new ImageHud(this, this.HUDAvatarAndSkill.x + 245, this.HUDAvatarAndSkill.y,
-      CST.HUD.BANG_TRANG_BI, true, true);
+      CST.HUD.BANG_ANH_DAI_DIEN_VA_KY_NANG, true).setDepth(4)
+      .setPosition(this.HUDStat.x + this.HUDStat.width + 70, this.HUDStat.y - 40);
+    this.avatar = this.self.champion.getAvatar().setPosition(this.HUDAvatarAndSkill.x + 10, this.HUDAvatarAndSkill.y + 50).setDepth(3);
+    this.HUDItem = new ImageHud(this, this.HUDAvatarAndSkill.x + this.HUDAvatarAndSkill.width + 450, this.HUDAvatarAndSkill.y + 18,
+      CST.HUD.BANG_TRANG_BI, true);
     // @ts-ignore
-    this.HUDMap = new ImageHud(this, this.game.config.width - 116.66, this.HUDAvatarAndSkill.y - 68,
-      CST.HUD.MAP, true, false).setScale(.7);
-    this.circleLevel = this.add.circle(this.avatar.x + 17.5, this.avatar.y + 27, 50, 0x202410, 1)
+    this.HUDMap = new ImageHud(this, 1260, 495,
+      CST.HUD.MAP, true).setScale(1.6);
+    this.circleLevel = this.add.circle(this.avatar.x + 155, this.avatar.y + 183, 50, 0x202410, 1)
       .setDepth(5)
-      .setScale(.15)
-      .setScrollFactor(0);
-    this.txtLevel = new TextHUD(this, this.circleLevel.x - 2.5, this.circleLevel.y - 8, this.self.champion.level.toString(), {
-      fontSize: '10px',
-      fontFamily: 'Arial',
+      .setScrollFactor(0).setScale(.45);
+    this.txtLevel = new TextHUD(this, this.circleLevel.x - 5 , this.circleLevel.y - 12, this.self.champion.level.toString(), {
+      fontSize: '25px',
+      fontFamily: 'Monospace',
       color: '#ffffff',
       align: 'center',  // 'left'|'center'|'right'|'justify'
       backgroundColor: 'transparent'
@@ -232,48 +232,39 @@ export class PlayGame extends Phaser.Scene {
   }
 
   makeCAM(): void {
-    this.self.cursorKeys = this.input.keyboard.createCursorKeys();
     this.self.cameraMain = this.cameras.main;
-    const controlConfig = {
-      camera: this.cameras.main,
-      left: this.self.cursorKeys.left,
-      right: this.self.cursorKeys.right,
-      up: this.self.cursorKeys.up,
-      down: this.self.cursorKeys.down,
-      acceleration: 0.06,
-      drag: 0.0005,
-      maxSpeed: 1.0
-    };
-    this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    this.cameraMain.setZoom(.4);
+    this.self.cameraMain.startFollow(this.self.champion);
     this.self.cameraMain.setBounds(this.cameraBounds.x, this.cameraBounds.y, this.cameraBounds.width, this.cameraBounds.height);
-    this.miniCam = this.cameras.add(667, 220,
-      339, 340);
-    this.miniCam.setZoom(.113).setScene(this);
+    this.miniCam = this.cameras.add(667, 208,
+      340, 370);
+    this.miniCam.setZoom(.053).setScene(this);
+    this.physics.world.setBounds(0, 0, this.cameraBounds.width, this.cameraBounds.height, true, true, true, true);
   }
 
   makeMap(): void {
-    const mappy = this.add.tilemap('mappy');
-    const terrain = mappy.addTilesetImage('Tileset_Sprite_Sheet', 'terrain', 24, 24);
-    const ground = mappy.createStaticLayer('ground', [terrain], 0, 0).setDepth(-2).setScale(.7).setSize(2000, 2000);
+    this.tilemap = this.add.tilemap('mappy');
+    const terrain = this.tilemap.addTilesetImage('Tileset_Sprite_Sheet', 'terrain', 24, 24);
+    const ground = this.tilemap.createStaticLayer('ground', [terrain], 0, 0).setDepth(-2);
     // const botLayer = mappy.createStaticLayer('bot', [terrain], 0, 0);
-    const topLayer = mappy.createStaticLayer('top', [terrain], 0, 0).setDepth(-1).setScale(.7);
+    this.topLayer = this.tilemap.createStaticLayer('top', [terrain], 0, 0).setDepth(-1);
     // map collisions
-    this.physics.add.collider(this.self.champion, topLayer);
-    topLayer.setCollisionByProperty({collides: true});
+    this.physics.add.collider(this.self.champion, this.topLayer);
+    this.topLayer.setCollisionByProperty({collides: true});
+    this.topLayer.setCollision([269, 270, 271, 301, 302, 303, 333, 334, 335]);
+    this.topLayer.renderDebug(this.add.graphics(), {
+      tileColor: null, // non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles,
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+    });
   }
 
   makeChampionAndEvents(): void {
-    this.champion = new CharacterSprite(this, 200, 100, 'CUNG_THU', 'character-20', CST.ATLAS.CHARACTER.CUNG_THU.KEY);
+
+    // Visualize an individual path
+    this.champion = new CharacterSprite(this, 300, 200, 'cung_thu', 'character-20', CST.ATLAS.CHARACTER.CUNG_THU.KEY);
     // @ts-ignore
     window.champion = this.champion;
-    // @ts-ignore
-    this.self.keys = this.input.keyboard.addKeys('Q, W, E, R, F1');
-    // Click to move
-    this.self.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (pointer.button === 2) {
-        this.self.champion.run(pointer.x, pointer.y);
-      }
-    });
   }
 
 }

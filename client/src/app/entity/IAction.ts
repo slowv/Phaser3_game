@@ -16,5 +16,4 @@ interface IAction {
     runDown(): void;
 
     runUp(): void;
-    run(x: number, y: number);
 }
