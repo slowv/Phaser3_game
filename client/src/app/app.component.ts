@@ -58,6 +58,10 @@ export class AppComponent implements OnInit {
       },
       version: '1.0',
       disableContextMenu: true,
+      audio: {
+        disableWebAudio: false,
+        noAudio: false,
+      }
     });
   }
 }

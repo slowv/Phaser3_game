@@ -1,0 +1,5 @@
+{
+  "projects": {
+    "default": "phaser3-game"
+  }
+}

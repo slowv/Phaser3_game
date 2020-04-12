@@ -85,6 +85,51 @@ html, body {
         border-style: dashed;
       }
     }
+
+    .social-login {
+      margin-top: 30px;
+      div {
+        font-size: 12px;
+        color : #24c1fe;
+        pointer-events: none;
+      }
+      ul {
+        display: flex;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+        li {
+          a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            line-height: 40px;
+            text-align: center;
+            margin: 10px 10px;
+            color: #fff;
+            transition: .3s;
+            &:hover {
+              transform: rotateZ(360deg);
+              box-shadow: 1px 1px 20px rgba(255, 255, 255, 0.65);
+            }
+          }
+          &:nth-child(1) a{
+            background: #4267B2;
+          }
+          &:nth-child(2) a{
+            background: #DD5347;
+          }
+          &:nth-child(3) a{
+            background: #24292F;
+          }
+        }
+      }
+    }
   }
 }
 

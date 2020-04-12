@@ -7,7 +7,9 @@ export class Load extends Phaser.Scene {
       key: CST.SCENES.LOAD
     });
   }
+
   player: Player;
+
   init(player: Player) {
     this.player = player;
   }
@@ -75,26 +77,71 @@ export class Load extends Phaser.Scene {
     this.loadHUD();
 
     // LOADING BAR
-    const loadingBar = this.add.graphics({
-      fillStyle: {
-        color: 0xffffff
-      },
+    const progressBar = this.add.graphics();
+    const progressBox = this.add.graphics();
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRect(240, 270, 1024 / 2 + 20, 50);
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+    const loadingText = this.make.text({
+      x: width / 2,
+      y: height / 2 - 45,
+      text: 'Loading...',
+      style: {
+        font: '20px monospace',
+        fill: '#ffffff'
+      }
     });
-    this.load.on('progress', (percent: number) => {
-      loadingBar.fillRect(20, this.game.renderer.height / 2, (this.game.renderer.width - 40) * percent, 20);
+    loadingText.setOrigin(0.5, 0.5);
+    const percentText = this.make.text({
+      x: width / 2,
+      y: height / 2 + 6,
+      text: '0%',
+      style: {
+        font: '18px monospace',
+        fill: '#ffffff'
+      }
+    });
+    percentText.setOrigin(0.5, 0.5);
+    const assetText = this.make.text({
+      x: width / 2,
+      y: height / 2 + 55,
+      text: '',
+      style: {
+        font: '18px monospace',
+        fill: '#ffffff'
+      }
+    });
+    assetText.setOrigin(0.5, 0.5);
+
+    this.load.on('progress', (value: number) => {
+      progressBar.clear();
+      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillRect(250, 280, (1024 / 2) * value, 30);
+      percentText.setText(Math.ceil(value * 100).toString() + '%');
     });
 
     this.load.on('complete', () => {
       console.log('complete');
-      // this.scene.start(CST.SCENES.MENU);
+      progressBar.destroy();
+      progressBox.destroy();
+      loadingText.destroy();
+      percentText.destroy();
+      assetText.destroy();
+      setTimeout(() => {
+        this.scene.start(CST.SCENES.PLAY, this.player);
+      }, 1 * 1000);
     });
 
-    this.load.on('load', (file: Phaser.Loader.File) => {
-      console.log(file.src);
+    this.load.on('fileprogress', (file: Phaser.Loader.File) => {
+      assetText.setText('Loading asset: ' + file.key);
     });
+
+    this.load.setPath('./assets/images');
+    this.load.image('logo', 'logo.png');
   }
 
   create(): void {
-    this.scene.start(CST.SCENES.PLAY, this.player);
+    const logo = this.add.image(1024 / 2, 576 / 2, 'logo').setScale(.3);
   }
 }
