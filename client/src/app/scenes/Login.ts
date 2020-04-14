@@ -5,12 +5,20 @@ import {firebaseConfig} from '../config/firebaseConfig';
 // @ts-ignore
 import {FromRegister} from '../jsx/FormLogin';
 import {Player} from '../entity/Player';
+import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+import FacebookAuthProvider = firebase.auth.FacebookAuthProvider;
+import GithubAuthProvider = firebase.auth.GithubAuthProvider;
+import AuthProvider = firebase.auth.AuthProvider;
 
 export class Login extends Phaser.Scene {
   firebaseApp!: firebase.app.App;
   vid!: Phaser.GameObjects.Video;
   bg: Phaser.GameObjects.Image;
-  cursor: Phaser.Input.InputPlugin;
+  providerGG: GoogleAuthProvider;
+  providerFB: FacebookAuthProvider;
+  providerGIT: GithubAuthProvider;
+  user: firebase.User;
+
   constructor() {
     super(CST.SCENES.LOGIN);
   }
@@ -25,26 +33,32 @@ export class Login extends Phaser.Scene {
     // this.vid = this.add.video(0, 0, 'mediaLogin');
     // this.vid.setDisplaySize(1024, 576).setOrigin(0);
     // this.vid.play(true).setLoop(true).setFlipX(true);
-    this.cursor = this.input.setDefaultCursor('url(./assets/images/cursor/cursor_06.png), pointer');
     this.bg = this.add.image(0, 0, 'bg').setDisplaySize(1024, 576).setOrigin(0);
-    this.firebaseApp = firebase.initializeApp(firebaseConfig);
-    this.firebaseApp.auth().onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in.
-        const displayName = user.displayName;
-        const email = user.email;
-        const emailVerified = user.emailVerified;
-        const photoURL = user.photoURL;
-        const isAnonymous = user.isAnonymous;
-        const uid = user.uid;
-        const providerData = user.providerData;
-        this.goToScreenLoad(new Player(email));
-      } else {
-        // User is signed out.
-        console.log('log-out');
+    this.make.text({
+      x: 10,
+      y: this.cameras.main.height - 20,
+      text: `Version: ${this.game.config.gameVersion} - client main`,
+      style: {
+        font: '12px monospace',
+        fill: '#ffffff'
       }
-    });
-    this.firebaseApp.auth().signOut();
+    }).setDepth(99);
+    this.firebaseApp = firebase.initializeApp(firebaseConfig);
+    this.providerGG = new firebase.auth.GoogleAuthProvider();
+    this.providerFB = new firebase.auth.FacebookAuthProvider();
+    this.user = this.firebaseApp.auth().currentUser;
+    if (this.user != null) {
+      const name = this.user.displayName;
+      const email = this.user.email;
+      const photoUrl = this.user.photoURL;
+      const emailVerified = this.user.emailVerified;
+      const uid = this.user.uid;
+      const photoURL = this.user.photoURL;
+      this.goToScreenLoad(new Player(name, email, uid, photoURL));
+    } else {
+      // DEV login
+      this.signIn('test@gmail.com', 'viet1998');
+    }
     this.createUILoginForm();
   }
 
@@ -57,7 +71,7 @@ export class Login extends Phaser.Scene {
         console.log('dang nhap thanh cong!');
         console.log('----------------------');
         console.log(result);
-        this.goToScreenLoad(new Player(result.user.email));
+        this.goToScreenLoad(new Player(result.user.displayName, result.user.email, result.user.uid, result.user.photoURL));
       })
       .catch(error => {
         // Handle Errors here.
@@ -104,7 +118,37 @@ export class Login extends Phaser.Scene {
     };
 
     document.getElementById('google').addEventListener('click', () => {
-      alert('1');
+      this.signInBySocial(this.providerGG);
+    });
+    document.getElementById('facebook').addEventListener('click', () => {
+      this.signInBySocial(this.providerFB);
+    });
+    document.getElementById('github').addEventListener('click', () => {
+      this.signInBySocial(this.providerGIT);
+    });
+  }
+
+  signInBySocial(provider: AuthProvider) {
+    this.firebaseApp.auth().signInWithPopup(provider).then((result) => {
+      // @ts-ignore
+      const token = result.credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(token);
+      console.log(user);
+      this.goToScreenLoad(new Player(user.displayName, user.email, user.uid, user.photoURL));
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      const credential = error.credential;
+      console.log(errorCode);
+      console.log(errorMessage);
+      console.log(credential);
+      console.log(email);
     });
   }
 

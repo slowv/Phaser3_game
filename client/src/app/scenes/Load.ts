@@ -76,11 +76,15 @@ export class Load extends Phaser.Scene {
     this.loadTilemap();
     this.loadHUD();
 
+    this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height).setOrigin(0)
+      .setStrokeStyle(4, 0x515151, 1)
+
     // LOADING BAR
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
+    progressBar.setDepth(99);
     progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(240, 270, 1024 / 2 + 20, 50);
+    progressBox.fillRect(250, 280, 1024 / 2, 30);
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
     const loadingText = this.make.text({
@@ -89,7 +93,7 @@ export class Load extends Phaser.Scene {
       text: 'Loading...',
       style: {
         font: '20px monospace',
-        fill: '#ffffff'
+        fill: '#515151'
       }
     });
     loadingText.setOrigin(0.5, 0.5);
@@ -102,21 +106,21 @@ export class Load extends Phaser.Scene {
         fill: '#ffffff'
       }
     });
-    percentText.setOrigin(0.5, 0.5);
+    percentText.setOrigin(0.5, 0.5).setDepth(100);
     const assetText = this.make.text({
       x: width / 2,
       y: height / 2 + 55,
       text: '',
       style: {
         font: '18px monospace',
-        fill: '#ffffff'
+        fill: '#515151'
       }
     });
     assetText.setOrigin(0.5, 0.5);
 
     this.load.on('progress', (value: number) => {
       progressBar.clear();
-      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillStyle(0xDC4E41, 1);
       progressBar.fillRect(250, 280, (1024 / 2) * value, 30);
       percentText.setText(Math.ceil(value * 100).toString() + '%');
     });
@@ -129,7 +133,7 @@ export class Load extends Phaser.Scene {
       percentText.destroy();
       assetText.destroy();
       setTimeout(() => {
-        this.scene.start(CST.SCENES.PLAY, this.player);
+        this.scene.start(CST.SCENES.ROOM_WAIT, this.player);
       }, 1 * 1000);
     });
 
@@ -138,10 +142,17 @@ export class Load extends Phaser.Scene {
     });
 
     this.load.setPath('./assets/images');
-    this.load.image('logo', 'logo.png');
+    this.load.image('logo', 'logo_dark.png');
+    // particles mouse
+    this.load.image('cursors_light', 'particles/cursor_light.png');
+    // Asset phòng chờ
+    // bg room wait
+    this.load.image('bgRoomWait_1', 'bg_login2.jpg');
+    this.load.image('bgRoomWait_2', 'bg_login3.jpg');
+    this.load.image('roomlist', 'roomList.png');
   }
 
   create(): void {
-    const logo = this.add.image(1024 / 2, 576 / 2, 'logo').setScale(.3);
+    this.add.image(1024 / 2, 576 / 2, 'logo').setScale(.3);
   }
 }

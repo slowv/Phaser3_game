@@ -5,7 +5,9 @@ import {Load} from './scenes/Load';
 import {Menu} from './scenes/Menu';
 import {PlayGame} from './scenes/PlayGame';
 import { Login } from './scenes/Login';
-
+import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
+import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
+import {RoomWait} from './scenes/RoomWait';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +18,8 @@ export class AppComponent implements OnInit {
   game: Phaser.Game;
   public WIDTH = 1024;
   public HEIGHT = 576;
-  SCENE = [Login, Load, Menu, PlayGame];
+  SCENE = [Login, Load, RoomWait, Menu, PlayGame];
+  // SCENE = [Load, RoomWait, Menu, PlayGame];
 
   public ngOnInit(): void {
   }
@@ -29,7 +32,7 @@ export class AppComponent implements OnInit {
       dom: {
         createContainer: true
       },
-      backgroundColor: 0x000000,
+      backgroundColor: 0xffffff,
       width: this.WIDTH,
       height: this.HEIGHT,
       physics: {
@@ -44,6 +47,16 @@ export class AppComponent implements OnInit {
       },
       plugins: {
         scene: [
+          {
+            key: 'rexBoard',
+            plugin: BoardPlugin,
+            mapping: 'rexBoard'
+          },
+          {
+            key: 'rexUI',
+            plugin: UIPlugin,
+            mapping: 'rexUI'
+          },
         ]
       },
       scene: this.SCENE,

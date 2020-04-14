@@ -4,7 +4,6 @@ import Image = Phaser.GameObjects.Image;
 import {Skill} from './Skill';
 import MoveTo from 'phaser3-rex-plugins/plugins/moveto';
 import {ImageHud} from './ImageHud';
-import {CharacterQuarter} from './character-quarter.enum';
 
 export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAction {
   currentHp: number;
@@ -35,7 +34,6 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   scene: Phaser.Scene;
   keys!: { [index: string]: Phaser.Input.Keyboard.Key };
   cursors !: Phaser.Types.Input.Keyboard.CursorKeys;
-  quarter: CharacterQuarter;
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number, key?: string) {
     super(scene, x, y, texture, frame);
     this.setDepth(2);
@@ -43,7 +41,6 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
     this.setCollideWorldBounds(true);
     this.setImmovable(true);
     this.setOrigin(0, 0);
-    this.quarter = CharacterQuarter.DOWN;
     this.body.setSize(this.width - 50, this.height - 20, true).setOffset(25, 25);
     this.champion = CST.ATLAS.CHARACTER[key];
     // SET PROPERTY
@@ -177,23 +174,18 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   }
 
   runDown(): void {
-    this.quarter = CharacterQuarter.DOWN;
     this.setVelocityY(this.speed);
   }
 
   runLeft(): void {
-    this.quarter = CharacterQuarter.LEFT;
-
     this.setVelocityX(-this.speed);
   }
 
   runRight(): void {
-    this.quarter = CharacterQuarter.RIGHT;
     this.setVelocityX(this.speed);
   }
 
   runUp(): void {
-    this.quarter = CharacterQuarter.UP;
     this.setVelocityY(-this.speed);
   }
 

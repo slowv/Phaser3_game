@@ -3,7 +3,8 @@ export const CST = {
     LOAD: 'LOAD',
     MENU: 'MENU',
     PLAY: 'PLAY',
-    LOGIN: 'LOGIN'
+    LOGIN: 'LOGIN',
+    ROOM_WAIT: 'ROOM_WAIT',
   },
   IMAGE: {
     BTN_PLAY: 'play_button.png',
@@ -163,6 +164,7 @@ export const CST = {
     CHI_MANG: 'perks/PerksAtlas_57.png', //
     BANG_ANH_DAI_DIEN_VA_KY_NANG: 'clarity/Clarity_HUDAtlas_63.png',
     BANG_TRANG_BI: 'clarity/Clarity_HUDAtlas_82.png',
-    MAP: 'clarity/Clarity_HUDAtlas_03.png'
+    MAP: 'clarity/Clarity_HUDAtlas_03.png',
+    SCOREBOARD: 'scoreboard/ScoreboardAtlas_03.png'
   }
 };
