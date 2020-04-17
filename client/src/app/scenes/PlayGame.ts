@@ -405,7 +405,7 @@ export class PlayGame extends Phaser.Scene {
   makeChampionAndEvents(): void {
 
     // Visualize an individual path
-    this.champion = new CharacterSprite(this, 600, 400, 'cung_thu', 'character-20', CST.ATLAS.CHARACTER.CUNG_THU.KEY);
+    this.champion = new CharacterSprite(this, 600, 400, CST.ATLAS.CHARACTER.RIVEN.AVATAR, CST.ATLAS.CHARACTER.RIVEN.KEY);
     // @ts-ignore
     window.champion = this.champion;
   }

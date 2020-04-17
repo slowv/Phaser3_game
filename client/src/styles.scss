@@ -18,6 +18,7 @@ html, body {
     margin: auto;
   }
 
+  // FORM REGISTER
   #formRegister {
     position: relative;
     width: 240px;
@@ -80,6 +81,7 @@ html, body {
       background: transparent;
       overflow: hidden;
       border: 2px solid #fff;
+
       &:hover {
         background: rgba(0, 0, 0, 0.73);
         border-style: dashed;
@@ -88,11 +90,13 @@ html, body {
 
     .social-login {
       margin-top: 30px;
+
       div {
         font-size: 12px;
-        color : #24c1fe;
+        color: #24c1fe;
         pointer-events: none;
       }
+
       ul {
         display: flex;
         margin: 0;
@@ -101,6 +105,7 @@ html, body {
         align-items: center;
         justify-content: center;
         justify-items: center;
+
         li {
           a {
             display: inline-block;
@@ -113,22 +118,82 @@ html, body {
             margin: 10px 10px;
             color: #fff;
             transition: .3s;
+
             &:hover {
               transform: rotateZ(360deg);
               box-shadow: 1px 1px 20px rgba(255, 255, 255, 0.65);
             }
           }
-          &:nth-child(1) a{
+
+          &:nth-child(1) a {
             background: #4267B2;
           }
-          &:nth-child(2) a{
+
+          &:nth-child(2) a {
             background: #DD5347;
           }
-          &:nth-child(3) a{
+
+          &:nth-child(3) a {
             background: #24292F;
           }
         }
       }
+    }
+
+    #msg-error-login {
+      font-size: 12px;
+      color: #ff9800;
+      font-style: italic
+    }
+  }
+
+  // ROOM LIST
+  #input-re-play-name {
+    outline: none;
+    height: 40px;
+    padding: 5px;
+    line-height: 40px;
+    width: 350px;
+
+    &:focus {
+      outline: none
+    }
+
+    &::placeholder {
+      font-size: 14px
+    }
+
+    &.error {
+      border-color: #DC4E41;
+    }
+  }
+
+  #btn-save-player-name {
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: .3s;
+    font-weight: 400;
+    &:hover:enabled {
+      box-shadow: 5px 5px 5px rgba(161, 161, 161, 0.85);
+    }
+
+    &:enabled {
+      background: #DC4E41;
+      color: #fff;
+    }
+  }
+
+  .reset-btn-input {
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    &:focus {
+      outline: none;
     }
   }
 }

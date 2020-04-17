@@ -20,7 +20,7 @@ export const CST = {
   SPRITE: {},
   ATLAS: {
     CHARACTER: {
-      CUNG_THU: {
+      RIVEN: {
         KEY: 'CUNG_THU',
         PNG: 'character/character.png',
         JSON: 'character/character_atlas.json',
@@ -138,7 +138,7 @@ export const CST = {
             }
           }
         },
-        AVATAR: 'character/cung_thu_avatar.png'
+        AVATAR: 'character/riven/riven.png'
       }
     }
   },
@@ -165,6 +165,8 @@ export const CST = {
     BANG_ANH_DAI_DIEN_VA_KY_NANG: 'clarity/Clarity_HUDAtlas_63.png',
     BANG_TRANG_BI: 'clarity/Clarity_HUDAtlas_82.png',
     MAP: 'clarity/Clarity_HUDAtlas_03.png',
-    SCOREBOARD: 'scoreboard/ScoreboardAtlas_03.png'
+    SCOREBOARD: 'scoreboard/ScoreboardAtlas_03.png',
+    AVATAR_UI: 'clarity/avatarUI.png',
+    BG_RL_AVATAR_UI: 'perks/PerksAtlas_28.png'
   }
 };

@@ -8,12 +8,4 @@ interface IAction {
     use_r(): void;
 
     base(): void;
-
-    runLeft(): void;
-
-    runRight(): void;
-
-    runDown(): void;
-
-    runUp(): void;
 }

@@ -7,7 +7,7 @@ import {PlayGame} from './scenes/PlayGame';
 import { Login } from './scenes/Login';
 import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
 import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
-import {RoomWait} from './scenes/RoomWait';
+import {RoomList} from './scenes/RoomList';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,8 +18,8 @@ export class AppComponent implements OnInit {
   game: Phaser.Game;
   public WIDTH = 1024;
   public HEIGHT = 576;
-  SCENE = [Login, Load, RoomWait, Menu, PlayGame];
-  // SCENE = [Load, RoomWait, Menu, PlayGame];
+  SCENE = [Login, Load, RoomList, Menu, PlayGame];
+  // SCENE = [Load, RoomList, Menu, PlayGame];
 
   public ngOnInit(): void {
   }
@@ -43,7 +43,8 @@ export class AppComponent implements OnInit {
         }
       },
       render: {
-        pixelArt: true
+        pixelArt: true,
+        powerPreference: 'high-performance',
       },
       plugins: {
         scene: [

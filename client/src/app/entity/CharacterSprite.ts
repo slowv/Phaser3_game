@@ -33,8 +33,8 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   skillR: Skill;
   scene: Phaser.Scene;
   keys!: { [index: string]: Phaser.Input.Keyboard.Key };
-  cursors !: Phaser.Types.Input.Keyboard.CursorKeys;
-  constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame?: string | number, key?: string) {
+  moveTo: MoveTo;
+  constructor(scene: Phaser.Scene, x: number, y: number, texture: string, key?: string, frame?: string | number) {
     super(scene, x, y, texture, frame);
     this.setDepth(2);
     scene.physics.world.enableBody(this);
@@ -118,8 +118,6 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
     this.scene.add.existing(this);
     // @ts-ignore
     this.keys = this.scene.input.keyboard.addKeys('Q, W, E, R, F1');
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
-    this.play(this.animKey.HURT, true);
   }
 
   use_q(x: number, y: number): void {
@@ -162,9 +160,6 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
   }
 
   attack_normal(objTarget: CharacterSprite) {
-    // Chỗ này check hướng objTarget để set animation! ==> LÀM SAU
-    // * * * * * * CODE HERE * * * * * *
-    // -----------------------------------------------------------
     objTarget.minusHealth(this.attack - objTarget.armor);
   }
 
@@ -173,53 +168,9 @@ export class CharacterSprite extends Phaser.Physics.Arcade.Sprite implements IAc
     this.destroy();
   }
 
-  runDown(): void {
-    this.setVelocityY(this.speed);
-  }
-
-  runLeft(): void {
-    this.setVelocityX(-this.speed);
-  }
-
-  runRight(): void {
-    this.setVelocityX(this.speed);
-  }
-
-  runUp(): void {
-    this.setVelocityY(-this.speed);
-  }
-
   getAvatar(): ImageHud {
     return this.avatar;
   }
   protected preUpdate(time: number, delta: number): void {
-    if (this.cursors.up.isDown) {
-      this.runUp();
-    }
-    if (this.cursors.down.isDown) {
-      this.runDown();
-    }
-    if (this.cursors.left.isDown) {
-      this.runLeft();
-    }
-    if (this.cursors.right.isDown) {
-      this.runRight();
-    }
-    if (this.cursors.up.isUp && this.cursors.down.isUp) {
-      this.setVelocityY(0);
-    }
-    if (this.cursors.left.isUp && this.cursors.right.isUp) {
-      this.setVelocityX(0);
-    }
-
-    if (this.body.velocity.x > 0) { // moving right
-      this.play(this.animKey.RUN_RIGHT, true);
-    } else if (this.body.velocity.x < 0) { // moving left
-      this.play(this.animKey.RUN_LEFT, true);
-    } else if (this.body.velocity.y < 0) { // moving up
-      this.play(this.animKey.RUN_UP, true);
-    } else if (this.body.velocity.y > 0) { // moving down
-      this.play(this.animKey.RUN_DOWN, true);
-    }
   }
 }

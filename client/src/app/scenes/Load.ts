@@ -41,13 +41,7 @@ export class Load extends Phaser.Scene {
 
   loadAtlas() {
     this.load.setPath('assets/images');
-    this.load.atlas(
-      'cung_thu',
-      CST.ATLAS.CHARACTER.CUNG_THU.PNG,
-      CST.ATLAS.CHARACTER.CUNG_THU.JSON
-    );
-    this.load.image(CST.ATLAS.CHARACTER.CUNG_THU.AVATAR, CST.ATLAS.CHARACTER.CUNG_THU.AVATAR);
-    this.load.animation(CST.ATLAS.CHARACTER.CUNG_THU.KEY, `${CST.ATLAS.CHARACTER.CUNG_THU.ANIMATION}`);
+    this.load.image(CST.ATLAS.CHARACTER.RIVEN.AVATAR, CST.ATLAS.CHARACTER.RIVEN.AVATAR);
   }
 
   loadTilemap(): void {
@@ -77,7 +71,7 @@ export class Load extends Phaser.Scene {
     this.loadHUD();
 
     this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height).setOrigin(0)
-      .setStrokeStyle(4, 0x515151, 1)
+      .setStrokeStyle(4, 0x515151, 1);
 
     // LOADING BAR
     const progressBar = this.add.graphics();

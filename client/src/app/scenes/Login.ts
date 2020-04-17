@@ -9,6 +9,7 @@ import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
 import FacebookAuthProvider = firebase.auth.FacebookAuthProvider;
 import GithubAuthProvider = firebase.auth.GithubAuthProvider;
 import AuthProvider = firebase.auth.AuthProvider;
+import 'firebase/database';
 
 export class Login extends Phaser.Scene {
   firebaseApp!: firebase.app.App;
@@ -18,7 +19,6 @@ export class Login extends Phaser.Scene {
   providerFB: FacebookAuthProvider;
   providerGIT: GithubAuthProvider;
   user: firebase.User;
-
   constructor() {
     super(CST.SCENES.LOGIN);
   }
@@ -71,7 +71,9 @@ export class Login extends Phaser.Scene {
         console.log('dang nhap thanh cong!');
         console.log('----------------------');
         console.log(result);
-        this.goToScreenLoad(new Player(result.user.displayName, result.user.email, result.user.uid, result.user.photoURL));
+        const player = new Player(result.user.displayName, result.user.email, result.user.uid, result.user.photoURL);
+
+        this.goToScreenLoad(player);
       })
       .catch(error => {
         // Handle Errors here.
@@ -106,6 +108,7 @@ export class Login extends Phaser.Scene {
     // @ts-ignore
     this.add.dom(1024 - 240, 1, FromRegister).setOrigin(0);
     const btnLogin = document.getElementById('btn-login');
+    console.log(btnLogin);
     btnLogin.addEventListener('click', (e) => {
       const form = document.forms[0];
       this.signIn(form['email'].value, form['password'].value);
