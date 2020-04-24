@@ -5,6 +5,7 @@ export const CST = {
     PLAY: 'PLAY',
     LOGIN: 'LOGIN',
     ROOM_WAIT: 'ROOM_WAIT',
+    MY_ROOM: 'MY_ROOM',
   },
   IMAGE: {
     BTN_PLAY: 'play_button.png',
@@ -17,11 +18,13 @@ export const CST = {
   AUDIO: {
     BG_MUSIC: 'Tropical_Moments.mp3'
   },
-  SPRITE: {},
+  SPRITE: {
+    RANK: 'rank/sprite_leagueicons_v2_36.png'
+  },
   ATLAS: {
     CHARACTER: {
       RIVEN: {
-        KEY: 'CUNG_THU',
+        KEY: 'RIVEN',
         PNG: 'character/character.png',
         JSON: 'character/character_atlas.json',
         ANIMATION: 'character/character_anim.json',
@@ -167,6 +170,10 @@ export const CST = {
     MAP: 'clarity/Clarity_HUDAtlas_03.png',
     SCOREBOARD: 'scoreboard/ScoreboardAtlas_03.png',
     AVATAR_UI: 'clarity/avatarUI.png',
-    BG_RL_AVATAR_UI: 'perks/PerksAtlas_28.png'
+    AVATAR_UI2: 'clarity/avatarUI2.png',
+    BG_RL_AVATAR_UI: 'perks/PerksAtlas_12.png',
+    TRACK_BAR_EXP: 'clarity/trackBarEXP.png',
+    BAR_EXP: 'clarity/barEXP.png',
+    BG_HISTORY_CHAM: 'perks/PerksAtlas_28.png'
   }
 };

@@ -63,8 +63,8 @@ export class Load extends Phaser.Scene {
     this.loadImages();
     this.loadAudio();
     this.loadSprites({
-      frameWidth: 250,
-      frameHeight: 396
+      frameWidth: 36,
+      frameHeight: 36
     });
     this.loadAtlas();
     this.loadTilemap();

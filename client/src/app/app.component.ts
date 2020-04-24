@@ -5,7 +5,6 @@ import {Load} from './scenes/Load';
 import {Menu} from './scenes/Menu';
 import {PlayGame} from './scenes/PlayGame';
 import { Login } from './scenes/Login';
-import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js';
 import UIPlugin from 'phaser3-rex-plugins/templates/ui/ui-plugin.js';
 import {RoomList} from './scenes/RoomList';
 @Component({
@@ -49,15 +48,10 @@ export class AppComponent implements OnInit {
       plugins: {
         scene: [
           {
-            key: 'rexBoard',
-            plugin: BoardPlugin,
-            mapping: 'rexBoard'
-          },
-          {
             key: 'rexUI',
             plugin: UIPlugin,
             mapping: 'rexUI'
-          },
+          }
         ]
       },
       scene: this.SCENE,
